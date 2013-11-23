@@ -9,7 +9,7 @@ struct lazy {
     /// CTOR: Pass builder function to constructor
     lazy(std::function<T()> fun) : fun_{fun} {}
 
-    /// Deref: Build or simply just return the already built value
+    /// Deref: Build value or simply just return the already built value
     T operator*() {
         if (!val_) val_ = fun_();
         return val_.get();
