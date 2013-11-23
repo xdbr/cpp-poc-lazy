@@ -5,7 +5,7 @@
 #include "lazy.hpp"
 
 bool TRACE = true;
-bool TRACE = true;
+bool PRINT = true;
 
 std::string build_some_string() {
     return std::string{"foo"} + std::string{"bar"};
