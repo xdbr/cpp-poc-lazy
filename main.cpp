@@ -4,8 +4,8 @@
 
 #include "lazy.hpp"
 
-bool TRACE = true;
-bool PRINT = true;
+const bool TRACE = true;
+const bool PRINT = true;
 
 std::string build_some_string() {
     return std::string{"foo"} + std::string{"bar"};
