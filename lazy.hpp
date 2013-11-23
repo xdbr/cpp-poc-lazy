@@ -10,13 +10,19 @@ struct lazy {
     lazy(std::function<T()> fun) : fun_{fun} {}
 
     /// Deref: Build value or simply just return the already built value
-    T operator*() {
+    inline T operator*() {
         if (!val_) val_ = fun_();
         return val_.get();
+    }
+    
+    /// Clear the value, force rebuilding
+    inline void clear() {
+        val_.reset();
     }
 
     std::function<T()> fun_ = nullptr;  ///< Store builder
     boost::optional<T> val_ = nullptr;  ///< Memoize value
+    
 };
 
 #endif /* end of include guard: LAZY_HPP_V7J57G6G */

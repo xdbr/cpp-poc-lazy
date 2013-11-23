@@ -19,6 +19,7 @@ int main() {
 
     assert( *foo == 2+3 );
 
+    foo.clear();
 
     lazy<int> bar( [&]{
         return *foo + 3;
