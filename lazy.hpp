@@ -4,9 +4,6 @@
 #include <functional>
 #include <boost/optional.hpp>
 
-extern const bool TRACE;
-
-#ifndef DODEBUG
 template<class T>
 struct lazy {
     lazy(std::function<T()> fun) : fun_{fun} {}
