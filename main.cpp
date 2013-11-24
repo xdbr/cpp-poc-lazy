@@ -4,47 +4,35 @@
 
 #include "lazy.hpp"
 
-const bool TRACE = true;
-const bool PRINT = true;
+extern const bool TRACE = true; // get to see when values are calculated
+extern const bool PRINT = true;
 
 std::string build_some_string() {
     return std::string{"foo"} + std::string{"bar"};
 }
 
 int main() {
-    lazy<int> foo( []()->int{
-        if (TRACE) std::cout << "NOW" << std::endl;
+    lazy<int> foo( [&]{
         return 2+3;
     });
 
-    assert( *foo == 2+3 );
-
-    foo.clear();
-
-    lazy<int> bar( [&]{
-        return *foo + 3;
+    // will push out calculation to latest point possible
+     lazy<int> bar( [&]{
+        return foo * 3;
     });
 
-    assert( *bar == 2+3+3 );
+    assert( *bar == (2+3)*3 );          // value will be calculated
+    std::cout << *bar << std::endl;     // no need for re-calculation
 
-
-    lazy<std::string> baz(build_some_string);
+    lazy<std::string> foo_string( [&]{
+        return std::string{"foo"};
+    });
     
-    assert( *baz == "foobar" );
+    lazy<std::string> foobar_string( [&]{
+        return foo_string + std::string{"bar"};
+    });
     
-    int i = *foo;
-    assert( i == 2+3 );
+    std::cout << *foobar_string << std::endl;
 
-    int j = *foo;
-    assert( j == i );
-    assert( j == 2+3 );
-    assert( j == [](){ return 2+3; }() );
-
-    if (PRINT) {
-        std::cout << "HERE" << *foo << "THERE" << std::endl;
-        std::cout << i+j << std::endl;
-        std::cout << *bar << std::endl;
-        std::cout << *baz << std::endl;
-    }
     return 0;
 }
